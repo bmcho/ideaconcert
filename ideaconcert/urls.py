@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ideaconcert.view import hellow_world
+from ideaconcert.view import hellow_world, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/hello', hellow_world),
+    path('', index),
 ]

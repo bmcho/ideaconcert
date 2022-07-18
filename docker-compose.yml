@@ -1,15 +1,10 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: dockerfile
-    env_file:
-      - .env
+    build: .
     command:
       - bash
       - -c
       - |
-        python manage.py wait_for_db -t 120
         python manage.py migrate
         echo yes | python manage.py collectstatic
         gunicorn ideaconcert.wsgi:application --bind 0.0.0.0:8000
@@ -18,8 +13,6 @@ services:
       - "8000:8000"
     volumes:
       - .:/home/ideaconcert
-    depends_on:
-      - db
 
   nginx:
     image: nginx:1.21

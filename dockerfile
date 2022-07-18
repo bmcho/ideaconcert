@@ -5,9 +5,8 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /home/ideaconcert
 
+COPY requirements.txt .
+
 RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
-
-COPY . /home/ideaconcert
-

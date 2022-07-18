@@ -1,0 +1,32 @@
+version: "3"
+services:
+  django-backend:
+    container_name: django-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    command:
+      - bash
+      - -c
+      - |
+        echo yes | python manage.py collectstatic
+        gunicorn ideaconcert.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+  
+  nginx:
+    image: nginx:1.21
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django-backend

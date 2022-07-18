@@ -1,0 +1,33 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dockerfile
+    env_file:
+      - .env
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py wait_for_db -t 120
+        python manage.py migrate
+        echo yes | python manage.py collectstatic
+        gunicorn ideaconcert.wsgi:application --bind 0.0.0.0:8000
+    stdin_open: true
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/home/ideaconcert
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:1.21
+    restart: always
+    volumes:
+      - ./conf:/etc/nginx/conf.d
+      - ./static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - web

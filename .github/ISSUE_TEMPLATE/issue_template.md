@@ -1,3 +1,12 @@
+---
+name: issue_template
+about: 이슈템플릿
+title: "[issue]"
+labels: ''
+assignees: ''
+
+---
+
 ## 이슈 타입
 <!--관련 없는 내용을 지워주세요-->
 * [ ] 기능추가

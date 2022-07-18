@@ -18,8 +18,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/home/ideaconcert
-    depends_on:
-      - db
+
 
   nginx:
     image: nginx:1.21
